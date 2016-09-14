@@ -123,7 +123,45 @@
   )
             </code></pre>
           </section>
-                  
+          <section>
+            <h4>Naming</h4>
+            <p>Use classes. Less confusing. Less specificity conflicts.</p>
+            <p>Does the tag describe it's function?</p>
+            <pre><code>
+  <div class="modal">
+    <header></header>
+    &lt;section class=&quot;modal-body&quot;&gt;&lt;/section&gt;
+    <footer></footer>
+  </div>
+            </code></pre>
+          </section>
+          <section>
+            <p>Does the tag describe it's function?</p>
+            <pre><code>
+  .modal {
+    & > header {
+      .close {
+
+      }
+    }
+    .modal-body { 
+      //<-does this need to be nested?
+    }
+    & > footer {
+      //Modal Actions
+    }
+  }
+            </code></pre>
+            <p style="color:rgb(231, 77, 67);">All Design System classes are namespaced with .pds-</p>
+          </section>
+          <section>
+            <h3>When do I create one?</h3>
+            <ul>
+              <li>Look for repeated patterns and behaviours</li>
+              <li>Is this useful as an abstract idea?</li>
+              <li>Is this getting complicated? Can it be broken down?</li>
+            </ul>
+          </section>
         </section>
         <section>
           <h2>Setup</h2>
@@ -159,7 +197,7 @@
             <p>PDS module properties live in _theme.scss</p>
             <pre><code>
 $core-vars: (
-...
+//...excerpt
   select: (
     background-size: (44px 44px),
     background-position: (100% 100%)
@@ -174,17 +212,8 @@ $core-vars: (
     background: #075B7F,
     background--active: #086C97,
     background--hover: #2B799B,
-    background-small--active: #5f5f5f,
-    background-small--hover: #404040,
     left-width-small: 100%,
     left-width-medium: 275px,
-    left-width-large: 15%,
-    left-min-width-large: 80px,
-    left-max-width-large: 120px,
-    right-width: 60px,
-    breakpoint-medium: 640px
-...
-)
             </code></pre>
             <p class="fragment">Let's look at the real one...</p>
           </section>
@@ -192,14 +221,60 @@ $core-vars: (
             <h4>Use Your App-Vars</h4>
             <pre><code>
   $app-vars: (      //The use() function checks app-vars first!
-    death-star: (
+    death-star: (   //<- custom properties
       moon: false,
       border-radius: 100%,
       background-color: grey
     ),
-    top-bar: (
+    top-bar: (  //<- library override
       height: 1px
     )
+  );
+            </code></pre>
+            <p>Note: Map syntax is a unforgiving. </p>
+            <p style="color:rgb(231, 77, 67);">Comma separate each property. No ; on values.</p>
+          </section>
+        </section>
+        <section>
+          <h2>Responsive Breakpoints</h2>
+          <section>
+            <ol>
+              <li class="fragment highlight-current-blue">Mobile design</li>
+              <li class="fragment highlight-current-blue">Tablet/inbetween design</li>
+              <li class="fragment highlight-current-blue">Large design</li>
+            </ol>
+          </section>
+          <section>
+            <h3>Mobile First</h3>
+            <p style="color:rgb(231, 77, 67);">Mobile layout is the <em>default</em> style with <em>no breakpoints</em></p>
+            <p>Breakpoints should work <strong>upward</strong>, not down. <em>(mostly)</em></p>
+            <p>Think: How am I enhancing this ui for a larger device?</p>
+          </section>
+          <section>
+            <h3>Mobile -> Tablet -> Desktop</h3>
+            <pre><code>
+  .thing {
+    color: blue;
+    
+    @include breakpoint(medium) {
+      color: red;
+    }
+    
+    @include breakpoint(large) {
+      color: green;
+    }
+  }
+            </code></pre>
+          </section>
+          <section>
+            <h3>Named breakpoints</h3>
+            <pre><code>
+  $breakpoints: (
+      small: 0,    //<-lol, y u exist?
+      medium: 480px,
+      large: 1024px,
+      xlarge: 1280px,
+      xxlarge: 1440px,
   );
             </code></pre>
           </section>
