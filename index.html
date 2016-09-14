@@ -52,6 +52,7 @@
               <li>Objects we can re-use</li>
               <li>Code we can refactor (not re-write)</li>
               <li>A library of awesome UI</li>
+              <li>...with Sass. <em>Please!</em></li>
             </ul>
             
           </section>
@@ -78,10 +79,12 @@
             <h4>HTML</h4>
             <pre><code>
     <div class="object is-amazing">
-      
         <i class="child-object"></i>
-    
     </div>
+    
+    <span class="object-alt">
+      <!-- object-option on mac...? -->
+    </span>
             </code></pre> 
           </section> 
           <section>
@@ -91,11 +94,64 @@
     color: BurlyWood;
     
     &.is-awesome {
-      color: RosyBrown;
+      color: RosyBrown;   //<- state changed
+    }
+    .child-object {
+      width:3.14159px;   //<- layout
     }
   }
+  
+  .object-alt {  
+    @extend .object;   //<-inherit from object
+    border-radius: use(object, border-radius);   //<-and extend
+  }
             </code></pre>
-          </section>        
+          </section>
+          <section>
+            <h4>_theme</h4>
+            <p>Library properties from _theme called with a use function:</p>
+            
+            <p><code>use(key, val)</code></p>
+            <pre><code>
+  $core-vars: (
+    object: (
+      border-radius: 4px
+    ),
+    something-else: (
+      content: "in ur base"
+    )
+  )
+            </code></pre>
+          </section>
+                  
+        </section>
+        <section>
+          <h2>Setup</h2>
+          <section>
+            <ol>
+              <li>Create master file: <em>deathstar-app.scss</em></li>
+              <li>Add <code>$app-vars</code> map. (optional, but important)</li>
+              <li><code>@import pds;</code> Bring in the library (it includes foundation)</li>
+              <li><code>@import _local-modules;</code> These are your local app sass files.</li>
+            </ol>
+          </section>
+          <section>
+            <h3>deathstar-app.scss</h3>
+            <pre><code>
+  $app-vars: (      //The use() function checks app-vars first!
+    death-star: (
+      moon: false,
+      border-radius: 100%,
+      background-color: grey
+    )
+  );
+  
+  @import 'pds';   //<-after app-vars, before local stuff
+  
+  @import '_local-module';         //file extension not required
+  @import '/component/_deathstar'; //etc
+            </code></pre>
+          </section>
         </section>
 			</div>
 		</div>
